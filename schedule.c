@@ -53,7 +53,7 @@ void sched_printTypes(void)
 	int i;
 	
 	for (i=0;i<MAX_TYPE;i++) {
-		printf("- %s\n", i, type_string[i]);
+		printf("%d %s\n", i, type_string[i]);
 	}
 }
 
@@ -104,14 +104,17 @@ void* sched_genSchedInfo(char* name, char* place, int type, int month, int day)
 //get month information from the scheduler info structure
 float sched_getMonth(void* obj)
 {
-	
+	schedInfo_t* schedPtr = (schedInfo_t*)obj;
+	return schedPtr->month;
 }
 
 
 //get type information from the scheduler info structure
 int sched_getType(void* obj)
 {
-	
+	schedInfo_t* schedPtr = (schedInfo_t*)obj;
+	return schedPtr->type;
+
 }
 
 
@@ -119,12 +122,20 @@ int sched_getType(void* obj)
 //get place string information from the scheduler info structure
 char* sched_getPlace(void* obj)
 {
+	schedInfo_t* schedPtr = (schedInfo_t*)obj;
+	return schedPtr->place;
 
 }
 
 //convert the name of the type into the enum(integer) value
 int sched_convertType(char* typeName)
 {
-	
+	int i;
+	for (i = 0; i < (sizeof(type_string) / sizeof(type_string[0])); i++)
+	{
+		if (strcmp(typeName, type_string[i]) == NULL)
+			return i;
+	}
+	return -1;
 }
 
